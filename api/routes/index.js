@@ -5,6 +5,7 @@ const usuarios = require('./usuariosRoute')
 module.exports = app => {
     app.use(
         bodyParser.json(),
-        geral        
+        geral,
+        usuarios
     )
 }
