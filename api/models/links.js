@@ -3,42 +3,39 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class users extends Model {
+  class links extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      users.belongsTo(models.users_roles, {
-        foreignKey: 'users_id'
+      links.hasMany(models.people, {
+        foreignKey: 'people_id'
+      })
+      links.hasMany(models.companies, {
+        foreignKey: 'companies_id'
+      })
+      links.hasMany(models.conditions, {
+        foreignKey: 'conditions_id'
       })
     }
   };
-  users.init({
-    login: {
-      type: DataTypes.STRING,
-      validate: {
-        isEmail: {
-          args: true,
-          msg: 'O E-mail digitado é inválido'
-        }
-      }
-    },
-    password: {
+  links.init({
+    description: {
       type: DataTypes.STRING,
       validate: {
         functionValidator: function(value){
-          if(value.length < 8){
-            throw new Error('O campo senha deve conter no mínimo 8 caracteres')
+          if(value.length < 3){
+            throw new Error('O campo link deve conter no mínimo 3 caracteres')
           }
-        }        
+        }
       }
     }
   }, {
     sequelize,
-    modelName: 'users',
+    modelName: 'links',
     paranoid: true
   });
-  return users;
+  return links;
 };

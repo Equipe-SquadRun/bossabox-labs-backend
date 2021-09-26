@@ -1,61 +1,94 @@
+const { Sequelize } = require('../models')
 const database = require('../models')
-const Sequelize = require('sequelize')
 
-class UsuariosController {
+class UsersController {
 
-    static async pegarTodosUsuarios(req, res){
+    static async getAllUsers(request, response, next){
         try {
-            const usuarios = await database.Users.findAll()
-            return res.status(200).json(usuarios)
+            const users = await database.users.findAll()
+            users.password = ''
+            return response.status(200).json(users)            
         }
         catch(error){
-            return res.status(500).json(error.message)
+            if(error instanceof SyntaxError){
+                return response.status(500).json(error.message)
+            }
         }
     }
 
-    static async pegarUsuario(req, res){
-        const { id } = req.params
+    static async getOneUser(request, response, next){
+        const { id } = request.params
         try {
-            const usuario = await database.Users.findOne({
+            const user = database.users.findOne({
+                where: {
+                    id: Number(id)
+                }
+            })   
+            return response.status(200).json(user)
+        }
+        catch(error){
+            if(error instanceof SyntaxError){
+                return response.status(500).json(error.message)
+            }
+        }
+    }
+
+    static async createUser(request, response, next){
+        const newUser = request.body
+        try {
+            const newUserCreated = await database.users.create(newUser)
+            return response.status(201).json(newUserCreated)
+        }
+        catch(error){
+            if(error instanceof SyntaxError){
+                return response.status(500).json(error.message)
+            }
+        }
+    }
+
+    static async updateUser(request, response, next){
+        const { id } = request.params
+        const newData = request.body
+        try {
+            await database.users.update(newData, {
                 where: {
                     id: Number(id)
                 }
             })
-            return res.status(200).json(usuario)
-        }
-        catch(error){
-            return res.status(500).json(error.message)
-        }
-    }
-
-    static async criarUsuario(req, res){
-        const dadosUsuario = req.body
-        try {
-            const novoUsuario = await database.Users.create(dadosUsuario)
-            return res.status(200).json(novoUsuario)
-        }        
-        catch(error){
-            return res.status(500).json(error.message)
-        }
-    }
-
-    static async atualizarUsuario(req, res){
-        const { id } = req.params
-        const dadosUsuario = req.body
-        try {
-            await database.Users.update( dadosUsuario, { where: { id: Number(id) }})
-            const usuarioAlterado = await database.Users.findOne({
+            const updatedUser = await database.users.findOne({
                 where: {
                     id: Number(id)
                 }
             })
-            return res.status(200).json(usuarioAlterado)
+            return response.status(200).json(updatedUser)
         }
         catch(error){
-            return res.status(500).json(error.message)
+            if(error instanceof SyntaxError){
+                return response.status(500).json(error.message)
+            }
         }
     }
 
+    static async loginAuthentication(request, response, next){
+        try {
+            const authBody = req.body
+            const index = database.users.findIndex((item => item.login === authBody.login && item.password === authBody.password))
+            if(index === -1){
+                return res.status(401).end()
+            }
+            res.json({ auth: true, token: {} })
+        }
+        catch(error){
+            if(error instanceof SyntaxError){
+                return response.status(400).json(error.message)
+            }
+        }
+    }
+    
+    static async logoffAuthentication(request, response, next){
+        res.json({ auth: false, token: null })
+    }
+    
 }
 
-module.exports = UsuariosController
+module.exports =  UsersController
