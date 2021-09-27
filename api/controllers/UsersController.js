@@ -18,7 +18,7 @@ class UsersController {
     static async getOneUser(request, response, next){
         const { id } = request.params
         try {
-            const user = database.users.findOne({
+            const user = await database.users.findOne({
                 where: {
                     id: Number(id)
                 }

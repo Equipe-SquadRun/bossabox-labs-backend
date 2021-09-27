@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       subjects.belongsTo(models.evaluations, {
         foreignKey: 'subjects_id'
       })
-      subjects.hasOne(models.people, {
-        foreignKey: 'people_id'
-      })
+      // subjects.hasOne(models.people, {
+      //   foreignKey: 'people_id'
+      // })
       subjects.hasOne(models.companies, {
         foreignKey: 'companies_id'
       })
