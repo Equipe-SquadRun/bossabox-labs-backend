@@ -80,6 +80,57 @@ class UsersController {
         }
     }
 
+    static async getAllRoles(request, response, next){
+        try {
+            const roles = await database.roles.findAll()            
+            return response.status(200).json(roles)            
+        }
+        catch(error){            
+            return response.status(400).json(error.message)            
+        }
+    }
+
+    static async createRole(request, response, next){
+        const bodyData = request.body        
+        try {
+            const newRoleCreated = await database.roles.create(bodyData)
+            return response.status(201).json(newRoleCreated)
+        }
+        catch(error){            
+            return response.status(400).json(error.message)            
+        }
+    }
+
+    static async removeRole(request, response, next){
+        const { id } = request.params
+        try {            
+            await database.roles.destroy({
+                where: {
+                    id: Number(id)
+                }
+            })
+            return response.status(200).json(`Grupo com id ${ id } removido com sucesso.`)
+        }        
+        catch(error){
+            return response.status(400).json(error.message)
+        }
+    }
+
+    static async getPermissions(request, response, next){
+        const { id } = request.params
+        try {
+            const permission = await database.users_roles.findOne({
+                where: {
+                    id: Number(id)
+                },
+                include: [database.users, database.roles]
+            })
+        }
+        catch(error){
+            return response.status(400).json(error.message)
+        }
+    }
+
     static async loginAuthentication(request, response, next){
         try {
             const authBody = request.body

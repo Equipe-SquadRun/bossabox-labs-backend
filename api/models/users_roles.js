@@ -19,20 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   users_roles.init({
-    description: {
-      type: DataTypes.STRING,
-      validate: {
-        functionValidator: function(value){
-          if(value.length < 3){
-            throw new Error('O campo descrição deve conter no mínimo 3 caracteres')
-          }
-        }
-      }
-    }
+    description: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'users_roles',
-    paranoid: true
   });
   return users_roles;
 };
