@@ -146,7 +146,7 @@ class UsersController {
     }
     
     static async logoffAuthentication(request, response, next){
-        res.json({ auth: false, token: null })
+        response.json({ auth: false, token: null })
     }
     
 }
