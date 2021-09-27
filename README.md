@@ -11,3 +11,7 @@ node -e "console.log(require('crypto').randomBytes(512).toString('base64'))"
 Então, pode executar o seguinte comando para criar as tabelas no seu banco de dados:
 
 npx sequelize-cli db:migrate
+
+E para iniciar o backend:
+
+npm start
