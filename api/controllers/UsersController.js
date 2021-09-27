@@ -1,18 +1,17 @@
 const { Sequelize } = require('../models')
 const database = require('../models')
+const LoginController = require('./LoginController')
 
 class UsersController {
 
     static async getAllUsers(request, response, next){
         try {
             const users = await database.users.findAll()
-            users.password = ''
+            //users.password = ''
             return response.status(200).json(users)            
         }
-        catch(error){
-            if(error instanceof SyntaxError){
-                return response.status(500).json(error.message)
-            }
+        catch(error){            
+            return response.status(400).json(error.message)            
         }
     }
 
@@ -23,32 +22,31 @@ class UsersController {
                 where: {
                     id: Number(id)
                 }
-            })   
+            }) 
+            //user.password = ''  
             return response.status(200).json(user)
         }
-        catch(error){
-            if(error instanceof SyntaxError){
-                return response.status(500).json(error.message)
-            }
+        catch(error){            
+            return response.status(400).json(error.message)            
         }
     }
 
     static async createUser(request, response, next){
-        const newUser = request.body
+        const bodyData = request.body
+        bodyData.password = await LoginController.cryptoPassword(bodyData.password) 
         try {
-            const newUserCreated = await database.users.create(newUser)
+            const newUserCreated = await database.users.create(bodyData)
             return response.status(201).json(newUserCreated)
         }
-        catch(error){
-            if(error instanceof SyntaxError){
-                return response.status(500).json(error.message)
-            }
+        catch(error){            
+            return response.status(400).json(error.message)            
         }
     }
 
     static async updateUser(request, response, next){
         const { id } = request.params
         const newData = request.body
+        newData.password = await LoginController.cryptoPassword(newData.password) 
         try {
             await database.users.update(newData, {
                 where: {
@@ -63,25 +61,36 @@ class UsersController {
             return response.status(200).json(updatedUser)
         }
         catch(error){
-            if(error instanceof SyntaxError){
-                return response.status(500).json(error.message)
-            }
+            return response.status(400).json(error.message)            
+        }
+    }
+
+    static async removeUser(request, response, next){
+        const { id } = request.params
+        try {            
+            await database.users.destroy({
+                where: {
+                    id: Number(id)
+                }
+            })
+            return response.status(200).json(`Usuário com id ${ id } removido com sucesso.`)
+        }        
+        catch(error){
+            return response.status(400).json(error.message)
         }
     }
 
     static async loginAuthentication(request, response, next){
         try {
-            const authBody = req.body
+            const authBody = request.body
             const index = database.users.findIndex((item => item.login === authBody.login && item.password === authBody.password))
             if(index === -1){
                 return res.status(401).end()
             }
             res.json({ auth: true, token: {} })
         }
-        catch(error){
-            if(error instanceof SyntaxError){
-                return response.status(400).json(error.message)
-            }
+        catch(error){            
+            return response.status(400).json(error.message)
         }
     }
     

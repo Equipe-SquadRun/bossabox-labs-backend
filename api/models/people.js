@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       people.belongsTo(models.subjects, {
         foreignKey: 'people_id'
       })
-      people.hasOne(models.users, {
-        foreignKey: 'people_id'
-      })
+      // people.hasOne(models.users, {
+      //   foreignKey: 'users_id'
+      // })
     }
   };
   people.init({

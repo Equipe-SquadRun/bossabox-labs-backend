@@ -1,11 +1,11 @@
 const bodyParser = require('body-parser')
-const geral = require('./geralRoute')
-const usuarios = require('./usuariosRoute')
+const general = require('./generalRoute')
+const users = require('./usersRoute')
 
 module.exports = app => {
     app.use(
         bodyParser.json(),
-        geral,
-        usuarios
+        general,
+        users
     )
 }

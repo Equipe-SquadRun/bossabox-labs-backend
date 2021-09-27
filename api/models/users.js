@@ -10,29 +10,32 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      users.belongsTo(models.users_roles, {
-        foreignKey: 'users_id'
-      })
+      // users.belongsTo(models.users_roles, {
+      //   foreignKey: 'users_id'
+      // })
     }
   };
   users.init({
     login: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        isEmail: {
-          args: true,
+        isEmail: {          
+          // args: true,
           msg: 'O E-mail digitado é inválido'
         }
       }
     },
     password: {
-      type: DataTypes.STRING,
-      validate: {
-        functionValidator: function(value){
-          if(value.length < 8){
-            throw new Error('O campo senha deve conter no mínimo 8 caracteres')
-          }
-        }        
+      type: DataTypes.STRING,      
+      validate: {                
+        notEmpty: {
+          msg: "A senha não pode ser vazia"
+        },
+        len: {
+          args: [8, 70],
+          msg: "A senha deve ter entre 8 e 70 caracteres"
+        }
       }
     }
   }, {
