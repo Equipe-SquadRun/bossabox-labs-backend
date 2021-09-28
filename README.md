@@ -8,6 +8,10 @@ Para preencher a variação JWT, execute o seguinte comando:
 
 node -e "console.log(require('crypto').randomBytes(512).toString('base64'))"
 
+Pode ser usado com qualquer base de dados, eu criei uma base chamada runtrack no MySQL com o comando:
+
+create database runtrack;
+
 Então, pode executar o seguinte comando para criar as tabelas no seu banco de dados:
 
 npx sequelize-cli db:migrate

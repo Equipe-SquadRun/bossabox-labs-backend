@@ -121,10 +121,22 @@ class UsersController {
         try {
             const permission = await database.users_roles.findOne({
                 where: {
-                    id: Number(id)
+                    users_id: Number(id)
                 },
                 include: [database.users, database.roles]
             })
+            return response.status(200).json(permission)
+        }
+        catch(error){
+            return response.status(400).json(error.message)
+        }
+    }
+
+    static async setPermissions(request, response, next){
+        const bodyData = request.body
+        try {
+            const newPermission = await database.users_roles.create(bodyData)
+            return response.status(201).json(newPermission)
         }
         catch(error){
             return response.status(400).json(error.message)

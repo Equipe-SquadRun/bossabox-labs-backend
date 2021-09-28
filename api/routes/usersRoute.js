@@ -15,6 +15,7 @@ router.post('/roles', UsersController.createRole)
 router.delete('/roles/:id', UsersController.removeRole)
 
 router.get('/permissions/:id', UsersController.getPermissions)
+router.post('/permissions', UsersController.setPermissions)
 //router.post('/usuario/login', passport.authenticate('local', { session: false }), UsuariosController.autenticar)
 
 module.exports = router
