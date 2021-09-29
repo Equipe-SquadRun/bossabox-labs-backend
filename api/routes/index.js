@@ -5,6 +5,7 @@ const people = require('./peopleRoute')
 const companies = require('./companiesRoute')
 const subjects = require('./subjectsRoute')
 const evaluations = require('./evaluationsRoute')
+const questions = require('./questionsRoute')
 
 module.exports = app => {
     app.use(        
@@ -14,6 +15,7 @@ module.exports = app => {
         people,
         companies,
         subjects,
-        evaluations
+        evaluations,
+        questions
     )
 }

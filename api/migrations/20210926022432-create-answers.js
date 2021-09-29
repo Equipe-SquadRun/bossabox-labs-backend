@@ -14,11 +14,11 @@ module.exports = {
       correct: {
         type: Sequelize.BOOLEAN
       },
-      evaluations_id: {
+      questions_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'evaluations', key: 'id'
+          model: 'questions', key: 'id'
         }
       },
       createdAt: {
