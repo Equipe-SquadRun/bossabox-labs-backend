@@ -10,19 +10,19 @@ module.exports = {
       },
       score: {
         type: Sequelize.STRING
-      },
-      users_id: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users', key: 'id'
-        }
-      },
+      },      
       evaluations_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'evaluations', key: 'id'
+        }
+      },
+      people_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'people', key: 'id'
         }
       },
       createdAt: {

@@ -6,6 +6,8 @@ const companies = require('./companiesRoute')
 const subjects = require('./subjectsRoute')
 const evaluations = require('./evaluationsRoute')
 const questions = require('./questionsRoute')
+const answers = require('./answersRoute')
+const grades = require('./gradesRoute')
 
 module.exports = app => {
     app.use(        
@@ -16,6 +18,8 @@ module.exports = app => {
         companies,
         subjects,
         evaluations,
-        questions
+        questions,
+        answers,
+        grades
     )
 }

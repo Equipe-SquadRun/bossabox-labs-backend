@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   answers.init({
-    descriprion: DataTypes.STRING,
+    description: DataTypes.STRING,
     correct: DataTypes.BOOLEAN
   }, {
     sequelize,

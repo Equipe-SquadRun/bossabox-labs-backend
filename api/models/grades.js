@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       grades.belongsTo(models.evaluations, {
         foreignKey: 'evaluations_id'
       })
+      grades.belongsTo(models.people, {
+        foreignKey: 'people_id'
+      })
     }
   };
   grades.init({
