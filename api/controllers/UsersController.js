@@ -146,11 +146,25 @@ class UsersController {
     static async loginAuthentication(request, response, next){
         try {
             const authBody = request.body
-            const index = database.users.findIndex((item => item.login === authBody.login && item.password === authBody.password))
-            if(index === -1){
-                return res.status(401).end()
+            const user = await database.users.findOne({
+                where: {
+                    login: authBody.login
+                }
+            })            
+            if(user !== null){
+                const loginGranted = await LoginController.checkPassword(authBody.password, user.password)             
+                console.log(loginGranted)
+                if(loginGranted === true){                    
+                    const token = await LoginController.signJWT(user)                    
+                    return response.json({ auth: true, token })
+                }
+                else {
+                    return response.status(401).end()
+                }                           
             }
-            res.json({ auth: true, token: {} })
+            else {
+                return response.status(401).end()
+            }
         }
         catch(error){            
             return response.status(400).json(error.message)
