@@ -1,13 +1,14 @@
 const { Router } = require('express')
 const EvaluationsController = require('../controllers/EvaluationsController')
+const MiddlewareController = require('../controllers/MiddlewareController')
 
 const router = Router()
 
-router.get('/evaluations', EvaluationsController.getAllEvaluations)
-router.get('/evaluations/:id', EvaluationsController.getOneEvaluation)
-router.get('/evaluations/subjects/:id', EvaluationsController.getEvaluationsBySubject)
-router.post('/evaluations', EvaluationsController.createEvaluation)
-router.put('/evaluations/:id', EvaluationsController.updateEvaluation)
-router.delete('/evaluations/:id', EvaluationsController.removeEvaluation)
+router.get('/evaluations', MiddlewareController.validatingAuth, EvaluationsController.getAllEvaluations)
+router.get('/evaluations/:id', MiddlewareController.validatingAuth, EvaluationsController.getOneEvaluation)
+router.get('/evaluations/subjects/:id', MiddlewareController.validatingAuth, EvaluationsController.getEvaluationsBySubject)
+router.post('/evaluations', MiddlewareController.validatingAuth, EvaluationsController.createEvaluation)
+router.put('/evaluations/:id', MiddlewareController.validatingAuth, EvaluationsController.updateEvaluation)
+router.delete('/evaluations/:id', MiddlewareController.validatingAuth, EvaluationsController.removeEvaluation)
 
 module.exports = router
