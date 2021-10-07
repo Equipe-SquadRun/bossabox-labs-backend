@@ -20,4 +20,23 @@ router.post('/permissions', MiddlewareController.validatingAuth, UsersController
 router.post('/users/login', UsersController.loginAuthentication)
 router.post('/users/logoff', UsersController.logoffAuthentication)
 
+// ===========================
+//     Tests without Token
+// ===========================    
+
+router.get('/usersTest', UsersController.getAllUsers)
+router.get('/usersTest/:id', UsersController.getOneUser)
+router.post('/usersTest', UsersController.createUser)
+router.put('/usersTest/:id', UsersController.updateUser)
+router.delete('/usersTest/:id', UsersController.removeUser)
+
+router.get('/rolesTest', UsersController.getAllRoles)
+router.post('/rolesTest', UsersController.createRole)
+router.delete('/rolesTest/:id', UsersController.removeRole)
+
+router.get('/permissionsTest/:id', UsersController.getPermissions)
+router.post('/permissionsTest', UsersController.setPermissions)
+router.post('/usersTest/login', UsersController.loginAuthentication)
+router.post('/usersTest/logoff', UsersController.logoffAuthentication)
+
 module.exports = router
